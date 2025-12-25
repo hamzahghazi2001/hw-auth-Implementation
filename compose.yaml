@@ -1,0 +1,40 @@
+@"
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: authapp
+      POSTGRES_PASSWORD: authapp_pw
+      POSTGRES_DB: authdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+  web:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - redis
+      - mailpit
+    volumes:
+      - .:/app
+
+volumes:
+  db-data:
+"@ | Set-Content -Encoding UTF8 compose.yaml

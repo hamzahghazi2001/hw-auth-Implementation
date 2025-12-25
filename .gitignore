@@ -1,0 +1,8 @@
+@"
+.env
+.venv/
+__pycache__/
+*.pyc
+evidence/logs/*.log
+evidence/logs/*.txt
+"@ | Set-Content -Encoding UTF8 .gitignore
